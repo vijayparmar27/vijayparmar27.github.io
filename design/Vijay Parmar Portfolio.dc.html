@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root { --accent: #C6F24E; --accent-soft: rgba(198,242,78,0.13); --accent-line: rgba(198,242,78,0.34); }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #070709; color: #EDEBE6; font-family: 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent, #C6F24E); text-decoration: none; }
+a:hover { color: #FFFFFF; }
+::selection { background: var(--accent, #C6F24E); color: #070709; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #070709; }
+::-webkit-scrollbar-thumb { background: #23232B; border-radius: 99px; border: 3px solid #070709; }
+@keyframes om-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes om-pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .3; transform: scale(.65); } }
+@keyframes om-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
+</style>
+</helmet>
+
+<div style="background:#070709;color:#EDEBE6;font-family:'IBM Plex Sans',system-ui,sans-serif;min-height:100vh;overflow-x:hidden;position:relative">
+
+  <div style="position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.045;mix-blend-mode:overlay;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E&quot;)"></div>
+  <div id="om-progress" style="position:fixed;top:0;left:0;height:2px;width:0%;background:var(--accent,#C6F24E);z-index:200;pointer-events:none"></div>
+
+  <header style="position:sticky;top:0;z-index:60;backdrop-filter:blur(20px);background:rgba(7,7,9,0.7);border-bottom:1px solid #16161C">
+    <div style="max-width:1280px;margin:0 auto;padding:15px 36px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a href="#top" style="display:flex;align-items:center;gap:13px;color:#EDEBE6;text-decoration:none">
+        <span style="width:30px;height:30px;border-radius:9px;background:var(--accent,#C6F24E);color:#070709;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;letter-spacing:-0.05em">VP</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.16em;text-transform:uppercase;color:#8A8A96">Vijay Parmar</span>
+      </a>
+      <nav style="display:flex;align-items:center;gap:2px">
+        <a href="#work" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.11em;text-transform:uppercase;color:#8A8A96;padding:8px 14px;border-radius:999px;transition:all .18s ease" style-hover="color:#EDEBE6;background:#14141A">Work</a>
+        <a href="#experience" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.11em;text-transform:uppercase;color:#8A8A96;padding:8px 14px;border-radius:999px;transition:all .18s ease" style-hover="color:#EDEBE6;background:#14141A">Experience</a>
+        <a href="#capabilities" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.11em;text-transform:uppercase;color:#8A8A96;padding:8px 14px;border-radius:999px;transition:all .18s ease" style-hover="color:#EDEBE6;background:#14141A">Approach</a>
+        <a href="#stack" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.11em;text-transform:uppercase;color:#8A8A96;padding:8px 14px;border-radius:999px;transition:all .18s ease" style-hover="color:#EDEBE6;background:#14141A">Stack</a>
+        <a href="#contact" style="margin-left:12px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.11em;text-transform:uppercase;color:#070709;background:var(--accent,#C6F24E);padding:10px 19px;border-radius:999px;font-weight:500;transition:all .18s ease" style-hover="color:#070709;background:#FFFFFF">Hire me</a>
+      </nav>
+    </div>
+  </header>
+
+  <sc-if value="{{ railVisible }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;right:26px;top:50%;transform:translateY(-50%);z-index:55;display:flex;flex-direction:column;gap:16px;align-items:flex-end">
+    <sc-for list="{{ rail }}" as="r" hint-placeholder-count="5">
+      <a href="{{ r.href }}" style="display:flex;align-items:center;gap:10px;color:#4E4E5A;text-decoration:none" style-hover="color:#EDEBE6">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase;opacity:{{ r.labelOpacity }};transition:opacity .25s ease">{{ r.label }}</span>
+        <span style="display:block;height:1px;width:{{ r.width }};background:{{ r.color }};transition:all .3s cubic-bezier(.22,1,.36,1)"></span>
+      </a>
+    </sc-for>
+  </div>
+  </sc-if>
+
+  <section id="top" style="max-width:1280px;margin:0 auto;padding:110px 36px 88px;position:relative;z-index:2">
+    <div style="position:absolute;top:-160px;right:-140px;width:620px;height:620px;border-radius:50%;background:var(--accent-soft,rgba(198,242,78,0.13));filter:blur(150px);pointer-events:none"></div>
+    <div style="display:grid;grid-template-columns:minmax(0,1.62fr) minmax(0,1fr);gap:72px;align-items:center;position:relative">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:10px;border:1px solid #23232B;background:rgba(16,16,20,0.8);border-radius:999px;padding:7px 16px 7px 12px;margin-bottom:38px">
+          <span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#C6F24E);animation:om-pulse 2.2s ease-in-out infinite"></span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#B7B7C0">Available &#183; Backend &amp; Full-Stack</span>
+        </div>
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(56px,8vw,124px);line-height:0.84;letter-spacing:-0.052em;margin:0 0 34px;color:#F7F5F0">I build the<br>real-time layer<br><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.015em;color:var(--accent,#C6F24E)">underneath</span> apps.</h1>
+        <p style="font-size:19.5px;line-height:1.6;color:#9C9CA8;max-width:620px;margin:0 0 44px;text-wrap:pretty">Full Stack Developer, five years deep in Node.js, TypeScript, Socket.IO and Redis. I work on the systems where a dropped connection is not acceptable &#8212; multiplayer card-game engines, live driver tracking, freight operations at scale.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a href="#work" style="display:inline-flex;align-items:center;gap:11px;background:var(--accent,#C6F24E);color:#070709;font-weight:600;font-size:14.5px;padding:15px 28px;border-radius:999px;transition:all .2s ease" style-hover="background:#FFFFFF;color:#070709;gap:16px">Selected work <span style="font-family:'IBM Plex Mono',monospace">&#8594;</span></a>
+          <a href="mailto:vijayparmar0027@gmail.com" style="display:inline-flex;align-items:center;gap:10px;border:1px solid #2A2A33;color:#EDEBE6;font-weight:500;font-size:14.5px;padding:15px 28px;border-radius:999px;transition:all .2s ease" style-hover="border-color:var(--accent,#C6F24E);color:#FFFFFF;background:#101014">vijayparmar0027@gmail.com</a>
+        </div>
+      </div>
+      <sc-if value="{{ showPortrait }}" hint-placeholder-val="{{ true }}">
+      <div style="position:relative;perspective:1400px">
+        <div style="position:absolute;inset:-30px;border-radius:40px;background:var(--accent-soft,rgba(198,242,78,0.13));filter:blur(50px);opacity:0.75;pointer-events:none"></div>
+        <div data-tilt="1" style="position:relative;transition:transform .4s cubic-bezier(.22,1,.36,1);transform-style:preserve-3d;will-change:transform">
+          <div style="position:absolute;inset:-1px;border-radius:24px;border:1px solid var(--accent-line,rgba(198,242,78,0.34));transform:rotate(-2.4deg);pointer-events:none"></div>
+          <div style="position:absolute;top:-9px;left:-9px;width:20px;height:20px;border-top:1px solid var(--accent,#C6F24E);border-left:1px solid var(--accent,#C6F24E);pointer-events:none"></div>
+          <div style="position:absolute;top:-9px;right:-9px;width:20px;height:20px;border-top:1px solid var(--accent,#C6F24E);border-right:1px solid var(--accent,#C6F24E);pointer-events:none"></div>
+          <div style="position:absolute;bottom:-9px;left:-9px;width:20px;height:20px;border-bottom:1px solid var(--accent,#C6F24E);border-left:1px solid var(--accent,#C6F24E);pointer-events:none"></div>
+          <div style="position:absolute;bottom:-9px;right:-9px;width:20px;height:20px;border-bottom:1px solid var(--accent,#C6F24E);border-right:1px solid var(--accent,#C6F24E);pointer-events:none"></div>
+          <div style="aspect-ratio:4/5;border-radius:24px;overflow:hidden;border:1px solid #23232B;background:#101014;position:relative">
+            <img src="https://portfolio-vijayparmar27s-projects.vercel.app/assets/images/developer.jpg" alt="Vijay Parmar" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.72) contrast(1.14) brightness(0.98)">
+            <div style="position:absolute;inset:0;background:var(--accent,#C6F24E);mix-blend-mode:soft-light;opacity:0.22;pointer-events:none"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,7,9,0.35) 0%,rgba(7,7,9,0) 38%,rgba(7,7,9,0.92) 100%);pointer-events:none"></div>
+            <div style="position:absolute;top:16px;left:16px;right:16px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(247,245,240,0.72);background:rgba(7,7,9,0.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.09);border-radius:6px;padding:5px 9px">Full Stack Dev</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent,#C6F24E);background:rgba(7,7,9,0.55);backdrop-filter:blur(6px);border:1px solid var(--accent-line,rgba(198,242,78,0.34));border-radius:6px;padding:5px 9px">2021 &#8212;</span>
+            </div>
+            <div style="position:absolute;left:20px;right:20px;bottom:18px">
+              <div style="height:1px;width:100%;background:linear-gradient(90deg,var(--accent-line,rgba(198,242,78,0.34)),rgba(255,255,255,0.04));margin-bottom:14px"></div>
+              <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+                <div>
+                  <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.03em;color:#F7F5F0">Vijay Parmar</div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#8A8A96;margin-top:4px">he / him</div>
+                </div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent,#C6F24E);text-align:right;line-height:1.55">Gujarat<br>IN &#183; Remote</div>
+              </div>
+            </div>
+          </div>
+          <div style="position:absolute;left:-24px;bottom:56px;background:rgba(11,11,15,0.94);backdrop-filter:blur(10px);border:1px solid #26262F;border-radius:13px;padding:13px 17px;display:flex;align-items:center;gap:13px;box-shadow:0 18px 40px rgba(0,0,0,0.55)">
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;line-height:1;letter-spacing:-0.05em;color:var(--accent,#C6F24E)">12</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.15em;text-transform:uppercase;color:#8A8A96;line-height:1.6">platforms<br>shipped</span>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ showMetrics }}" hint-placeholder-val="{{ true }}">
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#1B1B21;border:1px solid #1B1B21;border-radius:18px;overflow:hidden;margin-top:92px">
+      <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="4">
+        <div style="background:#0B0B0F;padding:32px 28px;transition:background .3s ease" style-hover="background:#101016">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;color:#3F3F4A;margin-bottom:18px">{{ m.num }}</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(32px,3.4vw,46px);line-height:1;letter-spacing:-0.045em;color:var(--accent,#C6F24E);margin-bottom:12px">{{ m.value }}</div>
+          <div style="font-size:13.5px;line-height:1.55;color:#8A8A96;text-wrap:pretty">{{ m.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <div style="display:flex;justify-content:center;margin-top:56px">
+      <a href="#work" style="display:flex;flex-direction:column;align-items:center;gap:9px;color:#4E4E5A;text-decoration:none" style-hover="color:var(--accent,#C6F24E)">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase">Scroll</span>
+        <span style="font-size:14px;animation:om-bob 2.4s ease-in-out infinite">&#8595;</span>
+      </a>
+    </div>
+  </section>
+
+  <div style="border-top:1px solid #16161C;border-bottom:1px solid #16161C;overflow:hidden;padding:20px 0;background:#090A0C;position:relative;z-index:2">
+    <div style="display:flex;width:max-content;animation:om-marquee 42s linear infinite">
+      <sc-for list="{{ marqueeTracks }}" as="track" hint-placeholder-count="2">
+        <div style="display:flex;align-items:center;gap:0;padding-right:0">
+          <sc-for list="{{ track.items }}" as="item" hint-placeholder-count="15">
+            <span style="display:flex;align-items:center;gap:34px;padding-right:34px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.11em;text-transform:uppercase;color:#5E5E6B;white-space:nowrap">{{ item }}</span>
+              <span style="width:4px;height:4px;border-radius:50%;background:#2A2A33;flex:none"></span>
+            </span>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <section id="work" style="max-width:1280px;margin:0 auto;padding:112px 36px 40px;position:relative;z-index:2">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:44px;flex-wrap:wrap;margin-bottom:48px">
+      <div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent,#C6F24E)">01</span>
+          <span style="height:1px;width:44px;background:var(--accent-line,rgba(198,242,78,0.34))"></span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6C6C79">Selected work</span>
+        </div>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(38px,5vw,68px);line-height:0.94;letter-spacing:-0.045em;margin:0;color:#F7F5F0">Things I shipped<br>to <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.01em">production.</span></h2>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+          <button onClick="{{ f.select }}" style="{{ f.style }}">{{ f.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <sc-if value="{{ featured }}" hint-placeholder-val="{{ true }}">
+    <article data-spot="1" onClick="{{ featured.open }}" style="position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);background:#0C0C10;border:1px solid #1E1E25;border-radius:22px;overflow:hidden;cursor:pointer;margin-bottom:20px;transition:border-color .3s ease" style-hover="border-color:var(--accent-line,rgba(198,242,78,0.34))">
+      <sc-if value="{{ featured.img }}" hint-placeholder-val="{{ false }}">
+        <div style="min-height:440px;overflow:hidden;background:#131318;position:relative">
+          {{ featured.imgEl }}
+          <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,7,9,0) 55%,rgba(12,12,16,0.95) 100%)"></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ featured.noImg }}" hint-placeholder-val="{{ false }}">
+        <div style="min-height:440px;background:#08080B;padding:40px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #1E1E25">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--accent,#C6F24E)"></span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:#7A7A87">{{ featured.glyphLabel }}</span>
+          </div>
+          <div>
+            <div style="height:1px;width:64px;background:var(--accent-line,rgba(198,242,78,0.34));margin-bottom:22px"></div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(48px,6vw,86px);line-height:0.9;letter-spacing:-0.055em;color:#4A4A5C">{{ featured.glyph }}</div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <sc-for list="{{ featured.stack }}" as="s" hint-placeholder-count="5">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.07em;color:#6C6C79;border:1px solid #22222A;border-radius:6px;padding:4px 9px">{{ s }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <div style="padding:44px 44px 40px;display:flex;flex-direction:column;justify-content:center;position:relative">
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:22px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#070709;background:var(--accent,#C6F24E);border-radius:5px;padding:5px 9px;font-weight:500">Featured</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#6C6C79">{{ featured.category }}</span>
+        </div>
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:clamp(28px,3.2vw,40px);line-height:1.04;letter-spacing:-0.04em;margin:0 0 16px;color:#F7F5F0;text-wrap:balance">{{ featured.title }}</h3>
+        <p style="font-size:16.5px;line-height:1.6;color:#9C9CA8;margin:0 0 28px;text-wrap:pretty">{{ featured.blurb }}</p>
+        <sc-if value="{{ featured.metric }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:30px">
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:38px;line-height:1;letter-spacing:-0.045em;color:var(--accent,#C6F24E)">{{ featured.metric }}</span>
+            <span style="font-size:13.5px;line-height:1.45;color:#7A7A87;max-width:210px;text-wrap:pretty">{{ featured.metricLabel }}</span>
+          </div>
+        </sc-if>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:22px;border-top:1px solid #1B1B21">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6C6C79">{{ featured.metaLine }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent,#C6F24E)">Read case &#8594;</span>
+        </div>
+      </div>
+    </article>
+    </sc-if>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:20px">
+      <sc-for list="{{ restProjects }}" as="p" hint-placeholder-count="8">
+        <article data-reveal="1" data-spot="1" onClick="{{ p.open }}" style="position:relative;background:#0C0C10;border:1px solid #1E1E25;border-radius:18px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;transition:border-color .3s ease,transform .3s cubic-bezier(.22,1,.36,1)" style-hover="border-color:var(--accent-line,rgba(198,242,78,0.34));transform:translateY(-5px)">
+          <sc-if value="{{ p.img }}" hint-placeholder-val="{{ true }}">
+            <div style="aspect-ratio:16/10;overflow:hidden;background:#131318;border-bottom:1px solid #1E1E25">
+              <img src="{{ p.img }}" alt="{{ p.title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;filter:saturate(0.85);transition:filter .4s ease,transform .5s cubic-bezier(.22,1,.36,1)" style-hover="filter:saturate(1.05);transform:scale(1.045)"></div>
+          </sc-if>
+          <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ false }}">
+            <div style="aspect-ratio:16/10;background:#08080B;border-bottom:1px solid #1E1E25;padding:26px;display:flex;flex-direction:column;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:9px">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--accent,#C6F24E)"></span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.17em;text-transform:uppercase;color:#7A7A87">{{ p.glyphLabel }}</span>
+              </div>
+              <div>
+                <div style="height:1px;width:44px;background:var(--accent-line,rgba(198,242,78,0.34));margin-bottom:14px"></div>
+                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;line-height:0.92;letter-spacing:-0.055em;color:#4A4A5C">{{ p.glyph }}</div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <sc-for list="{{ p.chips }}" as="s" hint-placeholder-count="4">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.07em;color:#6C6C79;border:1px solid #22222A;border-radius:5px;padding:3px 7px">{{ s }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+          <div style="padding:22px 24px 24px;display:flex;flex-direction:column;gap:12px;flex:1">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent,#C6F24E);background:var(--accent-soft,rgba(198,242,78,0.13));border-radius:5px;padding:4px 8px">{{ p.category }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#3F3F4A">{{ p.idx }}</span>
+            </div>
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:22px;line-height:1.14;letter-spacing:-0.03em;margin:0;color:#F0EEE9">{{ p.title }}</h3>
+            <p style="font-size:14.5px;line-height:1.6;color:#8A8A96;margin:0;text-wrap:pretty">{{ p.blurb }}</p>
+            <div style="margin-top:auto;padding-top:15px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #17171D">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6C6C79">{{ p.metaLine }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent,#C6F24E)">Open &#8594;</span>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="experience" style="max-width:1280px;margin:0 auto;padding:112px 36px 40px;position:relative;z-index:2">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent,#C6F24E)">02</span>
+      <span style="height:1px;width:44px;background:var(--accent-line,rgba(198,242,78,0.34))"></span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6C6C79">Experience</span>
+    </div>
+    <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(38px,5vw,68px);line-height:0.94;letter-spacing:-0.045em;margin:0 0 64px;color:#F7F5F0">Five years, <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.01em">three teams.</span></h2>
+    <div style="display:flex;flex-direction:column">
+      <sc-for list="{{ experience }}" as="job" hint-placeholder-count="3">
+        <div data-reveal="1" style="display:grid;grid-template-columns:minmax(0,58px) minmax(0,230px) minmax(0,1fr);gap:36px;padding:40px 0;border-top:1px solid #1B1B21;transition:border-color .3s ease" style-hover="border-color:var(--accent-line,rgba(198,242,78,0.34))">
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:15px;letter-spacing:-0.02em;color:#2A2A33;padding-top:3px">{{ job.num }}</div>
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.07em;color:var(--accent,#C6F24E);margin-bottom:9px">{{ job.period }}</div>
+            <div style="font-size:14px;color:#6C6C79;margin-bottom:4px">{{ job.location }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#3F3F4A">{{ job.length }}</div>
+          </div>
+          <div>
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:28px;line-height:1.16;letter-spacing:-0.035em;margin:0 0 5px;color:#F0EEE9">{{ job.role }}</h3>
+            <div style="font-size:15.5px;color:#8A8A96;margin-bottom:24px">{{ job.company }}</div>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px">
+              <sc-for list="{{ job.points }}" as="pt" hint-placeholder-count="3">
+                <li style="display:grid;grid-template-columns:16px minmax(0,1fr);gap:12px;font-size:15.5px;line-height:1.62;color:#A3A3AE;text-wrap:pretty">
+                  <span style="color:var(--accent,#C6F24E);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:2">&#9656;</span>
+                  <span>{{ pt }}</span>
+                </li>
+              </sc-for>
+            </ul>
+            <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:24px">
+              <sc-for list="{{ job.stack }}" as="s" hint-placeholder-count="5">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7A7A87;border:1px solid #22222A;border-radius:6px;padding:5px 10px;transition:all .2s ease" style-hover="border-color:var(--accent-line,rgba(198,242,78,0.34));color:#EDEBE6">{{ s }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+      <div style="border-top:1px solid #1B1B21"></div>
+    </div>
+  </section>
+
+  <section id="capabilities" style="max-width:1280px;margin:0 auto;padding:112px 36px 40px;position:relative;z-index:2">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent,#C6F24E)">03</span>
+      <span style="height:1px;width:44px;background:var(--accent-line,rgba(198,242,78,0.34))"></span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6C6C79">Approach</span>
+    </div>
+    <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(38px,5vw,68px);line-height:0.94;letter-spacing:-0.045em;margin:0 0 64px;color:#F7F5F0">Where I&#8217;m <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.01em">useful.</span></h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;background:#1B1B21;border:1px solid #1B1B21;border-radius:20px;overflow:hidden">
+      <sc-for list="{{ capabilities }}" as="c" hint-placeholder-count="6">
+        <div data-reveal="1" style="background:#0B0B0F;padding:38px 32px;transition:background .3s ease" style-hover="background:#101016">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:26px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#3F3F4A">{{ c.num }}</span>
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--accent,#C6F24E);opacity:0.55"></span>
+          </div>
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:21px;line-height:1.18;letter-spacing:-0.03em;margin:0 0 13px;color:#F0EEE9">{{ c.title }}</h3>
+          <p style="font-size:14.5px;line-height:1.66;color:#8A8A96;margin:0;text-wrap:pretty">{{ c.body }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="stack" style="max-width:1280px;margin:0 auto;padding:112px 36px 40px;position:relative;z-index:2">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent,#C6F24E)">04</span>
+      <span style="height:1px;width:44px;background:var(--accent-line,rgba(198,242,78,0.34))"></span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6C6C79">Stack</span>
+    </div>
+    <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(38px,5vw,68px);line-height:0.94;letter-spacing:-0.045em;margin:0 0 64px;color:#F7F5F0">Tools I <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.01em">reach for.</span></h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:48px 40px">
+      <sc-for list="{{ skillGroups }}" as="g" hint-placeholder-count="5">
+        <div data-reveal="1">
+          <div style="display:flex;align-items:center;gap:10px;padding-bottom:15px;margin-bottom:20px;border-bottom:1px solid #1E1E25">
+            <span style="width:6px;height:6px;background:var(--accent,#C6F24E);border-radius:2px"></span>
+            <h3 style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.17em;text-transform:uppercase;color:#B7B7C0;margin:0;font-weight:500">{{ g.name }}</h3>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ g.items }}" as="s" hint-placeholder-count="5">
+              <div style="font-size:15.5px;color:#9C9CA8;transition:color .18s ease,padding-left .18s ease" style-hover="color:#F0EEE9;padding-left:6px">{{ s }}</div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:80px;padding-top:40px;border-top:1px solid #1B1B21;display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr);gap:36px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#5E5E6B">Education</div>
+      <div>
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:23px;letter-spacing:-0.03em;margin:0 0 7px;color:#F0EEE9">Government Engineering College, Godhra</h3>
+        <div style="font-size:15px;color:#8A8A96">Bachelor of Engineering &#183; Gujarat Technological University &#183; 2016 &#8212; 2020</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="max-width:1280px;margin:0 auto;padding:112px 36px 110px;position:relative;z-index:2">
+    <div style="position:relative;border:1px solid #1E1E25;border-radius:26px;background:#0B0B0F;padding:80px 60px;overflow:hidden">
+      <div style="position:absolute;bottom:-220px;left:-100px;width:540px;height:540px;border-radius:50%;background:var(--accent-soft,rgba(198,242,78,0.13));filter:blur(150px);pointer-events:none"></div>
+      <div style="position:relative;max-width:820px">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent,#C6F24E)">05</span>
+          <span style="height:1px;width:44px;background:var(--accent-line,rgba(198,242,78,0.34))"></span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6C6C79">Contact</span>
+        </div>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(40px,5.6vw,80px);line-height:0.92;letter-spacing:-0.05em;margin:0 0 26px;color:#F7F5F0;text-wrap:balance">Got a system that has to <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.015em;color:var(--accent,#C6F24E)">stay up?</span></h2>
+        <p style="font-size:18.5px;line-height:1.6;color:#9C9CA8;margin:0 0 44px;max-width:580px;text-wrap:pretty">I&#8217;m open to backend and full-stack roles, and to contract work on real-time or high-throughput products. Fastest way to reach me is email.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:52px">
+          <a href="mailto:vijayparmar0027@gmail.com" style="display:inline-flex;align-items:center;gap:11px;background:var(--accent,#C6F24E);color:#070709;font-weight:600;font-size:15px;padding:16px 30px;border-radius:999px;transition:all .2s ease" style-hover="background:#FFFFFF;color:#070709;gap:16px">vijayparmar0027@gmail.com <span style="font-family:'IBM Plex Mono',monospace">&#8594;</span></a>
+          <a href="tel:+918140311309" style="display:inline-flex;align-items:center;gap:10px;border:1px solid #2A2A33;color:#EDEBE6;font-weight:500;font-size:15px;padding:16px 30px;border-radius:999px;transition:all .2s ease" style-hover="border-color:var(--accent,#C6F24E);color:#FFFFFF;background:#101014">+91 81403 11309</a>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:30px">
+          <sc-for list="{{ socials }}" as="s" hint-placeholder-count="3">
+            <a href="{{ s.url }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:#8A8A96;border-bottom:1px solid #2A2A33;padding-bottom:5px;transition:all .2s ease" style-hover="color:#FFFFFF;border-color:var(--accent,#C6F24E)">{{ s.label }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:44px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.13em;text-transform:uppercase;color:#3F3F4A">Vijay Parmar &#183; Full Stack Developer</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.13em;text-transform:uppercase;color:#3F3F4A">Rajkot / Surat &#183; India</span>
+    </div>
+  </section>
+
+  <sc-if value="{{ activeProject }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeProject }}" style="position:fixed;inset:0;z-index:150;background:rgba(4,4,6,0.8);backdrop-filter:blur(8px);display:flex;justify-content:flex-end">
+      <div onClick="{{ stopBubble }}" style="width:min(700px,100%);height:100%;overflow-y:auto;background:#0A0A0E;border-left:1px solid #22222A">
+        <div style="position:sticky;top:0;z-index:2;background:rgba(10,10,14,0.92);backdrop-filter:blur(14px);border-bottom:1px solid #1B1B21;padding:20px 44px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent,#C6F24E)">{{ activeProject.category }}</span>
+          <button onClick="{{ closeProject }}" style="background:#15151B;border:1px solid #26262F;color:#B7B7C0;border-radius:999px;width:34px;height:34px;font-size:16px;cursor:pointer;line-height:1;font-family:'IBM Plex Mono',monospace;transition:all .2s ease" style-hover="background:var(--accent,#C6F24E);color:#070709;border-color:var(--accent,#C6F24E)">&#215;</button>
+        </div>
+        <sc-if value="{{ activeProject.img }}" hint-placeholder-val="{{ false }}">
+          <div style="aspect-ratio:16/9;overflow:hidden;background:#131318;border-bottom:1px solid #1B1B21">{{ activeProject.imgEl }}</div>
+        </sc-if>
+        <div style="padding:44px">
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:40px;line-height:1;letter-spacing:-0.045em;margin:0 0 12px;color:#F7F5F0;text-wrap:balance">{{ activeProject.title }}</h2>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#6C6C79;margin-bottom:34px">{{ activeProject.metaLine }}</div>
+          <sc-if value="{{ activeProject.metric }}" hint-placeholder-val="{{ false }}">
+            <div style="border:1px solid var(--accent-line,rgba(198,242,78,0.34));background:var(--accent-soft,rgba(198,242,78,0.13));border-radius:16px;padding:22px 26px;margin-bottom:34px">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:32px;line-height:1;letter-spacing:-0.04em;color:var(--accent,#C6F24E);margin-bottom:8px">{{ activeProject.metric }}</div>
+              <div style="font-size:14px;color:#A3A3AE;text-wrap:pretty">{{ activeProject.metricLabel }}</div>
+            </div>
+          </sc-if>
+          <ul style="list-style:none;margin:0 0 36px;padding:0;display:flex;flex-direction:column;gap:16px">
+            <sc-for list="{{ activeProject.details }}" as="d" hint-placeholder-count="3">
+              <li style="display:grid;grid-template-columns:16px minmax(0,1fr);gap:12px;font-size:16px;line-height:1.65;color:#A3A3AE;text-wrap:pretty">
+                <span style="color:var(--accent,#C6F24E);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:2">&#9656;</span>
+                <span>{{ d }}</span>
+              </li>
+            </sc-for>
+          </ul>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.17em;text-transform:uppercase;color:#5E5E6B;margin-bottom:15px">Stack</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px">
+            <sc-for list="{{ activeProject.stack }}" as="s" hint-placeholder-count="6">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#B7B7C0;border:1px solid #26262F;background:#0F0F15;border-radius:8px;padding:7px 13px">{{ s }}</span>
+            </sc-for>
+          </div>
+          <sc-if value="{{ activeProject.hasLinks }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:1px;background:#1E1E25;border:1px solid #1E1E25;border-radius:16px;overflow:hidden">
+              <sc-for list="{{ activeProject.links }}" as="l" hint-placeholder-count="2">
+                <a href="{{ l.url }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:space-between;gap:16px;background:#0D0D12;padding:18px 22px;color:#EDEBE6;font-size:15px;font-weight:500;transition:background .2s ease" style-hover="background:#14141A;color:#FFFFFF">
+                  <span>{{ l.label }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent,#C6F24E)">Visit &#8599;</span>
+                </a>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#C6F24E&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#C6F24E&quot;,&quot;#FF7A45&quot;,&quot;#5CC8FF&quot;,&quot;#F5F3EE&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;showMetrics&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;},&quot;showPortrait&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;},&quot;railNav&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;}}">
+class Component extends DCLogic {
+  state = { filter: 'All', active: null, section: 'top', vw: typeof window !== 'undefined' ? window.innerWidth : 1440 };
+
+  componentDidMount() {
+    this.applyAccent();
+
+    this.revealObs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        this.revealObs.unobserve(e.target);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    this.sectionObs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting && this.state.section !== e.target.id) {
+          this.setState({ section: e.target.id });
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    ['top', 'work', 'experience', 'capabilities', 'stack', 'contact'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) this.sectionObs.observe(el);
+    });
+
+    this.onScroll = () => {
+      const bar = document.getElementById('om-progress');
+      if (!bar) return;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onScroll();
+
+    this.onMove = (ev) => {
+      const tilt = document.querySelector('[data-tilt="1"]');
+      if (tilt) {
+        const t = tilt.getBoundingClientRect();
+        const cx = t.left + t.width / 2;
+        const cy = t.top + t.height / 2;
+        const near = Math.abs(ev.clientX - cx) < t.width * 1.9 && Math.abs(ev.clientY - cy) < t.height * 1.4;
+        if (near) {
+          const ry = ((ev.clientX - cx) / t.width) * 7;
+          const rx = ((cy - ev.clientY) / t.height) * 7;
+          tilt.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) translateZ(0)';
+        } else {
+          tilt.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        }
+      }
+      const card = ev.target.closest ? ev.target.closest('[data-spot="1"]') : null;
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.backgroundImage = 'radial-gradient(420px circle at ' + (ev.clientX - r.left) + 'px ' + (ev.clientY - r.top) + 'px, var(--accent-soft, rgba(198,242,78,0.13)), transparent 62%)';
+    };
+    this.onLeave = (ev) => {
+      const card = ev.target.closest ? ev.target.closest('[data-spot="1"]') : null;
+      if (card) card.style.backgroundImage = 'none';
+    };
+    document.addEventListener('mousemove', this.onMove, { passive: true });
+    document.addEventListener('mouseout', this.onLeave, { passive: true });
+
+    this.onKey = (ev) => { if (ev.key === 'Escape') this.setState({ active: null }); };
+    window.addEventListener('keydown', this.onKey);
+
+    this.onResize = () => {
+      if (Math.abs(window.innerWidth - this.state.vw) > 2) this.setState({ vw: window.innerWidth });
+    };
+    window.addEventListener('resize', this.onResize, { passive: true });
+    this.onResize();
+
+    this.scan();
+  }
+
+  componentDidUpdate() { this.applyAccent(); this.scan(); }
+
+  componentWillUnmount() {
+    if (this.revealObs) this.revealObs.disconnect();
+    if (this.sectionObs) this.sectionObs.disconnect();
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('keydown', this.onKey);
+    document.removeEventListener('mousemove', this.onMove);
+    document.removeEventListener('mouseout', this.onLeave);
+  }
+
+  applyAccent() {
+    const a = this.props.accent;
+    if (!a) return;
+    const root = document.documentElement.style;
+    root.setProperty('--accent', a);
+    root.setProperty('--accent-soft', this.tint(a, 0.13));
+    root.setProperty('--accent-line', this.tint(a, 0.34));
+  }
+
+  tint(hex, alpha) {
+    const h = String(hex).replace('#', '');
+    if (h.length !== 6) return 'rgba(198,242,78,' + alpha + ')';
+    const n = parseInt(h, 16);
+    return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + alpha + ')';
+  }
+
+  scan() {
+    if (!this.revealObs) return;
+    document.querySelectorAll('[data-reveal="1"]').forEach((el) => {
+      if (el.dataset.revealed) return;
+      el.dataset.revealed = '1';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1), border-color .3s ease, background .3s ease';
+      this.revealObs.observe(el);
+    });
+  }
+
+  data() {
+    return [
+      {
+        id: 'rummy3plus', title: '3+ Rummy — Multiplayer Engine', category: 'Real-time Games', years: '2021 — 2024',
+        org: 'Artoon Solutions', img: 'https://vijayparmar27.github.io/assets/images/project/3+games/3+RummyGame.jpg',
+        blurb: 'Point, pool and deal rummy on one authoritative engine — the core that went on to power eleven more white-label platforms.',
+        metric: '12 platforms', metricLabel: 'White-label launches from one standardized core engine',
+        details: [
+          'Built the table lifecycle end to end: seat allocation, turn timers, draw/discard validation, declare and bet settlement.',
+          'Live game state held in Redis and match history in MongoDB, so a player who dropped mid-hand could rejoin the same hand instead of forfeiting.',
+          'Socket.IO room topology per table, with reconnection replay so returning clients resync to the exact turn state.',
+          'Standardized the engine so a new white-label platform could be configured rather than rebuilt — launch time fell from weeks to days.'
+        ],
+        stack: ['Node.js', 'TypeScript', 'Socket.IO', 'Redis', 'MongoDB', 'Express'],
+        links: [{ label: '3+ Rummy platform', url: 'https://3plusgames.com/' }]
+      },
+      {
+        id: 'hyze', title: 'Hyze — On-Demand Mobility', category: 'Mobile', years: '2024 — 2025',
+        org: 'Elluminati Inc', img: null, glyph: 'HYZE', glyphLabel: 'Live on Google Play',
+        chips: ['Node.js', 'Socket.IO', 'Redis', 'MongoDB'],
+        blurb: 'Uber-style ride-hailing backend: trip lifecycle, live driver tracking, in-app chat and a multi-channel notification pipeline.',
+        metric: '10,000+', metricLabel: 'Concurrent trips carried at peak across Socket.IO rooms',
+        details: [
+          'Built the backend for the full trip lifecycle — request, match, accept, en route, in progress, complete — with live driver location streaming throughout.',
+          'Optimized driver geo-state modeling in Redis for low-latency nearest-driver lookups, and scaled Socket.IO rooms to 10,000+ concurrent trips at peak.',
+          'Shipped in-app rider–driver chat plus a notification system spanning push, SMS and email.',
+          'Designed and documented the REST API consumed by three clients: rider app, driver app and admin panel.'
+        ],
+        stack: ['Node.js', 'Express', 'TypeScript', 'Socket.IO', 'Redis', 'MongoDB', 'AWS SNS/SES'],
+        links: [{ label: 'Hyze on Google Play', url: 'https://play.google.com/store/search?q=hyze&c=apps' }]
+      },
+      {
+        id: 'wal', title: 'WAL — Freight Operations', category: 'Platforms', years: '2025',
+        org: 'Logistic Infotech', img: null, glyph: 'WAL', glyphLabel: 'Freight ops \u00B7 production',
+        chips: ['React.js', 'Sails.js', 'MySQL', 'Socket.IO'],
+        blurb: 'Quotes, Orders, Carriers and Customer Management as connected modules — built end to end, front end to database.',
+        metric: '40% faster', metricLabel: 'Quote turnaround after the carrier-selection redesign',
+        details: [
+          'Built the platform end to end — Quotes, Orders, Carriers and Customer Management as connected modules — React front end on a Sails.js / MySQL backend.',
+          'Architected a carrier-selection flow that ranks carriers on rate and availability, cutting quote turnaround time by 40%.',
+          'Engineered live shipment tracking with Socket.IO so operations staff and customers see the same state at the same moment.'
+        ],
+        stack: ['React.js', 'Node.js', 'Sails.js', 'TypeScript', 'Socket.IO', 'MySQL', 'PostgreSQL', 'Redis'],
+        links: []
+      },
+      {
+        id: 'artoonmgp', title: 'Artoon MGP Rummy', category: 'Real-time Games', years: '2021 — 2024',
+        org: 'Artoon Solutions', img: 'https://vijayparmar27.github.io/assets/images/project/ArtoonMGP/artoon-MGP.jpg',
+        blurb: 'Multi-game platform skin of the rummy engine, packaged and configured for white-label clients.',
+        metric: 'Weeks → days', metricLabel: 'New-platform launch time after engine standardization',
+        details: [
+          'Packaged the core engine as a configurable multi-game platform — stakes, timers, rake and table sizes as client configuration.',
+          'Shipped MultiTable Rummy so a player could hold concurrent seats across tables without state collisions.',
+          'Kept per-client rules isolated from the shared codebase so a fix in the core reached every platform at once.'
+        ],
+        stack: ['Node.js', 'TypeScript', 'Socket.IO', 'Redis', 'MongoDB'],
+        links: [{ label: 'Artoon Solutions', url: 'https://artoonsolutions.com/' }]
+      },
+      {
+        id: 'team18', title: 'Team-18 MGP Rummy', category: 'Real-time Games', years: '2021 — 2024',
+        org: 'Artoon Solutions', img: 'https://vijayparmar27.github.io/assets/images/project/Team-18/t-18-rummy.jpg',
+        blurb: 'A second white-label deployment of the multi-game platform, live with its own economy and skin.',
+        metric: null, metricLabel: null,
+        details: [
+          'Deployed the shared rummy core against a separate client economy, wallet and tournament configuration.',
+          'Tuned turn-timer and reconnection windows for the client\u2019s traffic profile and network conditions.',
+          'Instrumented table events so operations could trace any hand from deal to settlement.'
+        ],
+        stack: ['Node.js', 'TypeScript', 'Socket.IO', 'Redis', 'MongoDB'],
+        links: []
+      },
+      {
+        id: 'callbreak', title: 'CallBreak, Teen Patti & Roulette', category: 'Real-time Games', years: '2021 — 2024',
+        org: 'Artoon Solutions', img: 'https://vijayparmar27.github.io/assets/images/project/Callbreak/callbreak-project.jpg',
+        blurb: 'Trick-taking, betting and wheel games sharing the same real-time backend primitives.',
+        metric: null, metricLabel: null,
+        details: [
+          'Extended the engine beyond rummy: trick evaluation for CallBreak, blind/seen betting rounds for Teen Patti, timed spin settlement for Roulette.',
+          'Reused the common layer — table lifecycle, turn timers, mid-hand reconnection, bet settlement — across every title.',
+          'Kept authoritative state server-side so clients could never drive the outcome of a round.'
+        ],
+        stack: ['Node.js', 'TypeScript', 'Socket.IO', 'Redis', 'MongoDB'],
+        links: []
+      },
+      {
+        id: 'ttt', title: 'Real-time Tic-Tac-Toe', category: 'Experiments', years: '2024',
+        org: 'Personal project', img: 'https://portfolio-vijayparmar27s-projects.vercel.app/assets/images/game1.jpg',
+        blurb: 'A low-latency two-player engine — an excuse to push FastAPI, Socket.IO and BullMQ together.',
+        metric: null, metricLabel: null,
+        details: [
+          'Engineered a low-latency game engine on FastAPI with Socket.IO handling real-time state between the two players.',
+          'Redis for data persistence and BullMQ for task scheduling — turn expiry, cleanup and match resolution.',
+          'Responsive React front end with Material-UI, Lottie animations and Redux Toolkit for state.'
+        ],
+        stack: ['FastAPI', 'Python', 'Socket.IO', 'Redis', 'BullMQ', 'React.js', 'Redux Toolkit', 'MUI'],
+        links: [{ label: 'Walkthrough on LinkedIn', url: 'https://www.linkedin.com/in/vijay-parmar-00467b2b8/' }]
+      },
+      {
+        id: 'skillwinz', title: 'Skillwinz & Rummy Challenge', category: 'Real-time Games', years: '2021 — 2024',
+        org: 'Artoon Solutions', img: null, glyph: 'SKILL\u2013WINZ', glyphLabel: 'White-label \u00B7 live',
+        chips: ['TypeScript', 'Socket.IO', 'Redis', 'MongoDB'],
+        blurb: 'Two further production skins of the rummy engine, each with its own branding and tournament rules.',
+        metric: null, metricLabel: null,
+        details: [
+          'Configured and launched two additional white-label platforms on the standardized core.',
+          'Validated the engine\u2019s multi-tenant assumptions under separate live traffic and payout rules.',
+          'Fed production issues from each skin back into the shared core so every platform improved at once.'
+        ],
+        stack: ['Node.js', 'TypeScript', 'Socket.IO', 'Redis', 'MongoDB'],
+        links: []
+      },
+      {
+        id: 'slots', title: 'Slot Booking Platform', category: 'Platforms', years: 'In development',
+        org: 'Personal project', img: null, glyph: 'SLOTS', glyphLabel: 'Active development',
+        chips: ['Expo RN', 'Next.js', 'PostgreSQL', 'AWS'],
+        blurb: 'Cross-platform booking product: React Native app, Next.js web front end, one Node backend on AWS.',
+        metric: null, metricLabel: null,
+        details: [
+          'Expo React Native app for iOS and Android alongside a Next.js web front end, sharing one Express / TypeScript API.',
+          'GPS-based location resolution to surface the right venues and slots for where the user actually is.',
+          'Notification pipeline on AWS SNS and SES, PostgreSQL for relational booking data and MongoDB for flexible venue documents.'
+        ],
+        stack: ['Expo React Native', 'Next.js', 'Express', 'TypeScript', 'PostgreSQL', 'MongoDB', 'AWS'],
+        links: []
+      }
+    ];
+  }
+
+  renderVals() {
+    const all = this.data();
+    const filter = this.state.filter;
+    const cats = ['All', 'Real-time Games', 'Platforms', 'Mobile', 'Experiments'];
+
+    const decorate = (p, i) => ({
+      ...p,
+      noImg: !p.img,
+      chips: p.chips || p.stack.slice(0, 4),
+      hasLinks: !!(p.links && p.links.length),
+      idx: '/' + String(i + 1).padStart(2, '0'),
+      metaLine: p.org + '  ·  ' + p.years,
+      imgEl: p.img ? React.createElement('img', {
+        src: p.img, alt: p.title, loading: 'lazy',
+        style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' }
+      }) : null,
+      open: () => this.setState({ active: p.id })
+    });
+
+    const shown = all.filter((p) => filter === 'All' || p.category === filter).map(decorate);
+    const activeRaw = all.find((p) => p.id === this.state.active);
+
+    const railItems = [
+      { id: 'top', label: 'Intro' }, { id: 'work', label: 'Work' },
+      { id: 'experience', label: 'Experience' }, { id: 'capabilities', label: 'Approach' },
+      { id: 'stack', label: 'Stack' }, { id: 'contact', label: 'Contact' }
+    ];
+
+    return {
+      showMetrics: this.props.showMetrics !== false,
+      showPortrait: this.props.showPortrait !== false,
+      railVisible: this.props.railNav !== false && this.state.vw >= 1380,
+      featured: shown.length ? shown[0] : null,
+      restProjects: shown.slice(1),
+      filters: cats.map((c) => ({
+        label: c,
+        select: () => this.setState({ filter: c }),
+        style: 'font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:0.11em;text-transform:uppercase;cursor:pointer;padding:9px 16px;border-radius:999px;transition:all .2s ease;'
+          + (c === filter
+            ? 'background:var(--accent,#C6F24E);color:#070709;border:1px solid var(--accent,#C6F24E);font-weight:500;'
+            : 'background:transparent;color:#7A7A87;border:1px solid #26262F;')
+      })),
+      rail: railItems.map((r) => {
+        const on = this.state.section === r.id;
+        return {
+          href: '#' + r.id, label: r.label,
+          width: on ? '30px' : '14px',
+          color: on ? 'var(--accent, #C6F24E)' : '#2E2E38',
+          labelOpacity: on ? '1' : '0'
+        };
+      }),
+      activeProject: activeRaw ? decorate(activeRaw, all.indexOf(activeRaw)) : null,
+      closeProject: () => this.setState({ active: null }),
+      stopBubble: (e) => e.stopPropagation(),
+      metrics: [
+        { num: '01', value: '5 yrs', label: 'Building production backends since 2021' },
+        { num: '02', value: '12', label: 'White-label game platforms on one engine' },
+        { num: '03', value: '10K+', label: 'Concurrent trips held live at peak' },
+        { num: '04', value: '40%', label: 'Faster freight quote turnaround at WAL' }
+      ],
+      marqueeTracks: [
+        { items: ['TypeScript', 'Node.js', 'Socket.IO', 'Redis', 'MongoDB', 'React.js', 'Next.js', 'FastAPI', 'PostgreSQL', 'Docker', 'Kubernetes', 'AWS', 'React Native', 'BullMQ', 'GraphQL'] },
+        { items: ['TypeScript', 'Node.js', 'Socket.IO', 'Redis', 'MongoDB', 'React.js', 'Next.js', 'FastAPI', 'PostgreSQL', 'Docker', 'Kubernetes', 'AWS', 'React Native', 'BullMQ', 'GraphQL'] }
+      ],
+      experience: [
+        {
+          num: '01', period: 'Apr 2025 — Dec 2025', location: 'Rajkot, India', length: '9 months',
+          role: 'Full Stack Developer', company: 'Logistic Infotech Pvt Ltd',
+          points: [
+            'Built WAL, a freight-operations platform, end to end — Quotes, Orders, Carriers and Customer Management as connected modules, React.js front end on a Sails.js / MySQL backend.',
+            'Architected a carrier-selection flow that ranks carriers based on rate and availability, reducing quote turnaround time by 40%.',
+            'Engineered live shipment tracking using Socket.IO to provide real-time state synchronization for operations staff and customers.'
+          ],
+          stack: ['React.js', 'Sails.js', 'Node.js', 'TypeScript', 'Socket.IO', 'MySQL', 'PostgreSQL']
+        },
+        {
+          num: '02', period: 'Apr 2024 — Feb 2025', location: 'Rajkot, India', length: '11 months',
+          role: 'MEAN Stack Developer', company: 'Elluminati Inc',
+          points: [
+            'Built the backend for an Uber-style on-demand mobility product: trip lifecycle, live driver location tracking, in-app rider–driver chat and a multi-channel notification system.',
+            'Optimized driver geo-state modeling in Redis for low-latency nearest-driver lookups, and scaled Socket.IO rooms to support 10,000+ concurrent trips at peak.',
+            'Designed and documented the REST API consumed by three clients — rider app, driver app and admin panel.'
+          ],
+          stack: ['Node.js', 'Express', 'MongoDB', 'Redis', 'Socket.IO', 'TypeScript', 'AWS']
+        },
+        {
+          num: '03', period: 'Mar 2021 — Mar 2024', location: 'Surat, India', length: '3 years',
+          role: 'Node.js Developer', company: 'Artoon Solutions',
+          points: [
+            'Built real-time multiplayer game backends — point / pool / deal rummy, Teen Patti, CallBreak and Roulette — covering table lifecycle, turn timers, bet settlement and mid-hand reconnection over Socket.IO.',
+            'Kept live game state in Redis and match history in MongoDB so a dropped player could rejoin the same hand instead of forfeiting; shipped MultiTable Rummy for concurrent seats across tables.',
+            'Deployed a standardized core engine across 12 white-label platforms, reducing new-platform launch time from weeks to days.'
+          ],
+          stack: ['Node.js', 'TypeScript', 'Socket.IO', 'Redis', 'MongoDB', 'Express']
+        }
+      ],
+      capabilities: [
+        { num: '01', title: 'Real-time systems', body: 'Socket.IO room topology, authoritative server state, turn timers and mid-session reconnection — the parts that decide whether a live product feels solid or flaky.' },
+        { num: '02', title: 'API architecture', body: 'REST and GraphQL services in Node and FastAPI, documented as contracts so three separate clients can build against them without guessing.' },
+        { num: '03', title: 'Data & caching', body: 'Redis for hot state and geo lookups, MongoDB for event history, MySQL and PostgreSQL where relational integrity matters. Schema design first, indexes second.' },
+        { num: '04', title: 'Cloud & DevOps', body: 'Dockerized services on AWS EC2 and S3, Kubernetes (CKAD), CI/CD automation and BullMQ for background jobs and scheduled work.' },
+        { num: '05', title: 'Product front ends', body: 'React and Next.js for web, Expo React Native for Android and iOS — enough front-end depth to own a feature from database to screen.' },
+        { num: '06', title: 'Game logic', body: 'Rummy variants, Teen Patti, CallBreak and Roulette: trick evaluation, bet settlement, rake and payout rules that have to be exactly right, every hand.' }
+      ],
+      skillGroups: [
+        { name: 'Languages', items: ['TypeScript', 'JavaScript', 'Python', 'Java', 'C++'] },
+        { name: 'Backend', items: ['Node.js', 'Express.js', 'FastAPI', 'Socket.IO', 'REST APIs', 'GraphQL', 'gRPC (basic)', 'Microservices'] },
+        { name: 'Frontend', items: ['React.js', 'Next.js', 'React Native', 'Tailwind CSS', 'HTML & CSS'] },
+        { name: 'Database', items: ['MongoDB', 'Redis', 'PostgreSQL', 'MySQL'] },
+        { name: 'Cloud & DevOps', items: ['AWS (EC2, S3, SNS, SES)', 'Docker', 'Kubernetes (CKAD)', 'CI/CD automation', 'BullMQ'] }
+      ],
+      socials: [
+        { label: 'GitHub', url: 'https://www.github.com/vijayparmar27' },
+        { label: 'LinkedIn', url: 'https://www.linkedin.com/in/vijay-parmar-00467b2b8/' },
+        { label: 'Instagram', url: 'https://www.instagram.com/_vijay__parmar_/' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>
