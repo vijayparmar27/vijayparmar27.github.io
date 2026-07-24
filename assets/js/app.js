@@ -408,17 +408,53 @@
     });
   }
 
+  /* -------------------------------------------------- mobile navigation --- */
+
+  var menuToggle = $('#menu-toggle');
+  var siteNav = $('#primary-nav');
+
+  if (menuToggle && siteNav) {
+    menuToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = siteNav.classList.contains('is-open');
+      siteNav.classList.toggle('is-open', !isOpen);
+      menuToggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    document.addEventListener('click', function (e) {
+      if (siteNav.classList.contains('is-open') && !siteNav.contains(e.target) && !menuToggle.contains(e.target)) {
+        siteNav.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    $$('a', siteNav).forEach(function (link) {
+      link.addEventListener('click', function () {
+        siteNav.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
   /* --------------------------------------------------- scroll progress -- */
 
   var bar = $('#progress');
   if (bar) {
-    var onScroll = function () {
+    var progressTicking = false;
+    var updateProgress = function () {
+      progressTicking = false;
       var max = document.documentElement.scrollHeight - window.innerHeight;
       bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
     };
+    var onScroll = function () {
+      if (!progressTicking) {
+        progressTicking = true;
+        requestAnimationFrame(updateProgress);
+      }
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
-    onScroll();
+    updateProgress();
   }
 
   /* ------------------------------------------------ tilt + spotlight ---- */
@@ -429,33 +465,50 @@
 
   if (finePointer && !prefersReduced) {
     var tilt = $('[data-tilt]');
+    var mouseX = 0;
+    var mouseY = 0;
+    var rafPending = false;
+    var currentSpotCard = null;
+    var activeSpotCard = null;
 
-    document.addEventListener('mousemove', function (ev) {
+    var updatePointerEffects = function () {
+      rafPending = false;
+
       if (tilt) {
         var t = tilt.getBoundingClientRect();
         var cx = t.left + t.width / 2;
         var cy = t.top + t.height / 2;
-        var near = Math.abs(ev.clientX - cx) < t.width * 1.9 &&
-                   Math.abs(ev.clientY - cy) < t.height * 1.4;
+        var near = Math.abs(mouseX - cx) < t.width * 1.9 &&
+                   Math.abs(mouseY - cy) < t.height * 1.4;
         if (near) {
-          var ry = ((ev.clientX - cx) / t.width) * 7;
-          var rx = ((cy - ev.clientY) / t.height) * 7;
+          var ry = ((mouseX - cx) / t.width) * 7;
+          var rx = ((cy - mouseY) / t.height) * 7;
           tilt.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) translateZ(0)';
         } else {
-          tilt.style.transform = 'rotateX(0deg) rotateY(0deg)';
+          tilt.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0)';
         }
       }
 
-      var card = ev.target.closest ? ev.target.closest('[data-spot="1"]') : null;
-      if (!card) return;
-      var r = card.getBoundingClientRect();
-      card.style.backgroundImage = 'radial-gradient(420px circle at ' +
-        (ev.clientX - r.left) + 'px ' + (ev.clientY - r.top) + 'px, var(--accent-soft), transparent 62%)';
-    }, { passive: true });
+      if (activeSpotCard && activeSpotCard !== currentSpotCard) {
+        activeSpotCard.style.backgroundImage = '';
+      }
+      activeSpotCard = currentSpotCard;
 
-    document.addEventListener('mouseout', function (ev) {
-      var card = ev.target.closest ? ev.target.closest('[data-spot="1"]') : null;
-      if (card) card.style.backgroundImage = 'none';
+      if (currentSpotCard) {
+        var r = currentSpotCard.getBoundingClientRect();
+        currentSpotCard.style.backgroundImage = 'radial-gradient(420px circle at ' +
+          (mouseX - r.left).toFixed(1) + 'px ' + (mouseY - r.top).toFixed(1) + 'px, var(--accent-soft), transparent 62%)';
+      }
+    };
+
+    document.addEventListener('mousemove', function (ev) {
+      mouseX = ev.clientX;
+      mouseY = ev.clientY;
+      currentSpotCard = ev.target.closest ? ev.target.closest('[data-spot="1"]') : null;
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(updatePointerEffects);
+      }
     }, { passive: true });
   }
 })();
