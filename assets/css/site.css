@@ -43,7 +43,7 @@
 /* --------------------------------------------------------------- base --- */
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body {
   margin: 0;
@@ -235,7 +235,7 @@ a:hover { color: #FFFFFF; }
 
 /* -------------------------------------------------------------- hero ---- */
 
-.hero { padding-top: 110px; padding-bottom: 88px; }
+.hero { padding-top: 110px; padding-bottom: 88px; overflow: hidden; }
 
 .hero__glow {
   position: absolute; top: -160px; right: -140px;
@@ -302,14 +302,15 @@ a:hover { color: #FFFFFF; }
   transform-style: preserve-3d; will-change: transform;
 }
 .portrait__frame {
-  position: absolute; inset: -1px; border-radius: 24px;
-  border: 1px solid var(--accent-line); transform: rotate(-2.4deg); pointer-events: none;
+  position: absolute; inset: -2px; border-radius: 26px;
+  border: 1px solid var(--accent-line); pointer-events: none;
+  opacity: 0.8;
 }
-.corner { position: absolute; width: 20px; height: 20px; pointer-events: none; }
-.corner--tl { top: -9px; left: -9px; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
-.corner--tr { top: -9px; right: -9px; border-top: 1px solid var(--accent); border-right: 1px solid var(--accent); }
-.corner--bl { bottom: -9px; left: -9px; border-bottom: 1px solid var(--accent); border-left: 1px solid var(--accent); }
-.corner--br { bottom: -9px; right: -9px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+.corner { position: absolute; width: 14px; height: 14px; pointer-events: none; z-index: 3; }
+.corner--tl { top: 12px; left: 12px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+.corner--tr { top: 12px; right: 12px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+.corner--bl { bottom: 12px; left: 12px; border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+.corner--br { bottom: 12px; right: 12px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); }
 
 .portrait__card {
   aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden;
@@ -899,9 +900,16 @@ a:hover { color: #FFFFFF; }
   .btn { padding: 13px 20px; font-size: 13.5px; }
 
   .portrait { max-width: 100%; }
-  .badge-float { left: 0; bottom: 12px; padding: 10px 14px; max-width: calc(100% - 24px); }
+  .badge-float {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    margin-top: 16px;
+    padding: 12px 18px;
+    width: fit-content;
+  }
   .badge-float__num { font-size: 22px; }
-  .badge-float__label { font-size: 8.5px; }
+  .badge-float__label { font-size: 9px; }
 
   .metrics { margin-top: 48px; }
   .metric { padding: 20px 16px; }
@@ -944,12 +952,25 @@ a:hover { color: #FFFFFF; }
 }
 
 @media (max-width: 480px) {
-  :root { --gutter: 16px; }
-  .metrics { grid-template-columns: minmax(0, 1fr); }
+  :root { --gutter: 14px; }
+  .status { padding: 6px 12px; margin-bottom: 24px; max-width: 100%; }
+  .status__text { font-size: 9.5px; letter-spacing: 0.08em; white-space: nowrap; }
+  .status__dot { width: 6px; height: 6px; }
+  .hero__title { font-size: clamp(30px, 9.5vw, 44px); line-height: 0.95; margin-bottom: 20px; }
+  .hero__lede { font-size: 15px; line-height: 1.5; margin-bottom: 28px; }
+  .btn { padding: 12px 18px; font-size: 13px; }
+  .metrics { grid-template-columns: minmax(0, 1fr); margin-top: 36px; }
+  .metric { padding: 18px 16px; }
   .hero__actions { flex-direction: column; }
-  .hero__actions .btn { width: 100%; justify-content: center; }
+  .hero__actions .btn { width: 100%; justify-content: center; text-align: center; }
   .contact__actions { flex-direction: column; }
-  .contact__actions .btn { width: 100%; justify-content: center; }
+  .contact__actions .btn { width: 100%; justify-content: center; text-align: center; }
+}
+
+@media (max-width: 360px) {
+  :root { --gutter: 12px; }
+  .brand__name { font-size: 10px; letter-spacing: 0.08em; }
+  .status__text { font-size: 8.5px; letter-spacing: 0.05em; }
 }
 
 /* ------------------------------------------------------- preferences ---- */
