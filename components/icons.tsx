@@ -36,11 +36,11 @@ export function BriefcaseIcon({ className }: IconProps) {
   );
 }
 
-export function CompassIcon({ className }: IconProps) {
+export function HomeIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z" />
+      <path d="M3.5 10.2 12 3.6l8.5 6.6v9a1.6 1.6 0 0 1-1.6 1.6H5.1a1.6 1.6 0 0 1-1.6-1.6z" />
+      <path d="M9.4 20.8v-7h5.2v7" />
     </svg>
   );
 }

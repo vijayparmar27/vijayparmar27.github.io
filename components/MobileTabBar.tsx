@@ -4,22 +4,22 @@ import { RAIL_LINKS } from '@/lib/content';
 import { useActiveSection } from '@/hooks/useActiveSection';
 import {
   BriefcaseIcon,
-  CompassIcon,
   GridIcon,
+  HomeIcon,
   LayersIcon,
   MailIcon,
 } from '@/components/icons';
 
 const TABS = [
+  { id: 'top', label: 'Intro', Icon: HomeIcon },
   { id: 'work', label: 'Work', Icon: GridIcon },
   { id: 'experience', label: 'Experience', Icon: BriefcaseIcon },
-  { id: 'capabilities', label: 'Approach', Icon: CompassIcon },
   { id: 'stack', label: 'Stack', Icon: LayersIcon },
   { id: 'contact', label: 'Contact', Icon: MailIcon },
 ] as const;
 
-/* Observe every section, including the hero, so scrolling back to the top
-   clears the highlight rather than leaving Work stuck on. */
+/* Observe every section, including Approach, which has no tab of its own —
+   scrolling through it should clear the highlight, not leave Experience on. */
 const SECTION_IDS = RAIL_LINKS.map((link) => link.id);
 
 /**
