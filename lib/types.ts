@@ -38,6 +38,9 @@ export type Project = {
 
 export type Job = {
   period: string;
+  /** ISO 8601 for structured data; `period` stays the human-facing label. */
+  startDate: string;
+  endDate?: string;
   location: string;
   length: string;
   role: string;

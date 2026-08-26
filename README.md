@@ -26,6 +26,7 @@ app/
   page.tsx           The single page
   not-found.tsx      Styled 404
   sitemap.ts         -> /sitemap.xml    robots.ts -> /robots.txt
+  llms.txt/route.ts  -> /llms.txt (llmstxt.org summary for language models)
 components/
   sections/          One component per page section: Hero, Work, Experience, …
   work/              Project cards, glyph panels and the case-study drawer
@@ -36,7 +37,7 @@ hooks/               Reveal-on-scroll, active section, media queries, scroll loc
 lib/
   projects.ts        Case-study content — the source of truth for the work grid
   content.ts         Site metadata, nav, jobs, capabilities, stack, education
-  structuredData.ts  schema.org Person graph
+  structuredData.ts  schema.org ProfilePage/Person/CreativeWork graph
   types.ts           Shared content types
 styles/
   site.css           The full design system, imported by the root layout

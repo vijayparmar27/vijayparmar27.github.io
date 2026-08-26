@@ -66,6 +66,8 @@ export const MARQUEE_ITEMS = [
 export const JOBS: Job[] = [
   {
     period: 'Apr 2025 — Dec 2025',
+    startDate: '2025-04',
+    endDate: '2025-12',
     location: 'Rajkot, India',
     length: '9 months',
     role: 'Full Stack Developer',
@@ -79,6 +81,8 @@ export const JOBS: Job[] = [
   },
   {
     period: 'Apr 2024 — Feb 2025',
+    startDate: '2024-04',
+    endDate: '2025-02',
     location: 'Rajkot, India',
     length: '11 months',
     role: 'MEAN Stack Developer',
@@ -92,6 +96,8 @@ export const JOBS: Job[] = [
   },
   {
     period: 'Mar 2021 — Mar 2024',
+    startDate: '2021-03',
+    endDate: '2024-03',
     location: 'Surat, India',
     length: '3 years',
     role: 'Node.js Developer',
