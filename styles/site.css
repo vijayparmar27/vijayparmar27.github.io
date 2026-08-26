@@ -15,13 +15,15 @@
   --ink-bright: #F7F5F0;
   --ink-head: #F0EEE9;
 
-  --muted-1: #9C9CA8;
-  --muted-2: #8A8A96;
-  --muted-3: #7A7A87;
-  --muted-4: #6C6C79;
-  --muted-5: #5E5E6B;
-  --muted-6: #4E4E5A;
-  --muted-7: #3F3F4A;
+  /* Tiers 1-6 carry real text and all clear WCAG AA (4.5:1) on --bg and on the
+     #0C0C10 card surface. Tiers 7-8 are ornament and borders only. */
+  --muted-1: #B4B4C0;
+  --muted-2: #A8A8B4;
+  --muted-3: #9C9CA8;
+  --muted-4: #90909C;
+  --muted-5: #858591;
+  --muted-6: #7B7B88;
+  --muted-7: #4C4C58;
   --muted-8: #2A2A33;
 
   --line-1: #16161C;
@@ -438,7 +440,7 @@ a:hover { color: #FFFFFF; }
 .glyph-panel__glyph {
   font-family: var(--display); font-weight: 800;
   font-size: clamp(48px, 6vw, 86px); line-height: 0.9;
-  letter-spacing: -0.055em; color: #4A4A5C;
+  letter-spacing: -0.055em; color: #62627A;
 }
 .glyph-panel__chips { display: flex; flex-wrap: wrap; gap: 7px; }
 .glyph-panel__chips span {
@@ -565,7 +567,7 @@ a:hover { color: #FFFFFF; }
 .job:hover { border-color: var(--accent-line); }
 .job__num {
   font-family: var(--display); font-weight: 800; font-size: 15px;
-  letter-spacing: -0.02em; color: var(--muted-8); padding-top: 3px;
+  letter-spacing: -0.02em; color: var(--muted-7); padding-top: 3px;
 }
 .job__period {
   font-family: var(--mono); font-size: 12px; letter-spacing: 0.07em;
@@ -574,7 +576,7 @@ a:hover { color: #FFFFFF; }
 .job__location { font-size: 14px; color: var(--muted-4); margin-bottom: 4px; }
 .job__length {
   font-family: var(--mono); font-size: 11px;
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-7);
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-5);
 }
 .job__role {
   font-family: var(--display); font-weight: 600; font-size: 28px;
@@ -689,7 +691,7 @@ a:hover { color: #FFFFFF; }
 }
 .colophon span {
   font-family: var(--mono); font-size: 11px;
-  letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted-7);
+  letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted-5);
 }
 
 /* ------------------------------------------------------------ drawer ---- */
@@ -771,6 +773,32 @@ a:hover { color: #FFFFFF; }
 }
 .drawer__links a:hover { background: #14141A; color: #FFFFFF; }
 .drawer__links a span:last-child { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+
+/* ----------------------------------------------------------- 404 -------- */
+
+.notfound {
+  position: relative;
+  min-height: 72vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.notfound__glow {
+  position: absolute; top: -140px; right: -120px;
+  width: 520px; height: 520px; border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-soft), transparent 68%);
+  pointer-events: none;
+}
+.notfound__lede {
+  font-size: 17px; line-height: 1.62; color: var(--muted-1);
+  max-width: 54ch; margin: 0 0 38px; text-wrap: pretty;
+}
+
+/* The 404 page has no sections, so the section chrome has nothing to track. */
+body:has(.notfound) .rail,
+body:has(.notfound) .tabbar,
+body:has(.notfound) .progress { display: none; }
 
 /* --------------------------------------------------- mobile tab bar ----- */
 
@@ -997,7 +1025,7 @@ a:hover { color: #FFFFFF; }
 }
 
 @media print {
-  .site-header, .rail, .progress, .grain, .marquee,
+  .site-header, .rail, .progress, .grain, .marquee, .tabbar,
   .scroll-cue, .drawer, .filters { display: none !important; }
   body { background: #FFF; color: #111; }
 }

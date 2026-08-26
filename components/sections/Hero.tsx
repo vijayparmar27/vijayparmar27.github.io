@@ -97,7 +97,9 @@ export function Hero() {
       <div className="metrics">
         {HERO_METRICS.map((metric, i) => (
           <div className="metric" key={metric.label}>
-            <div className="metric__num">{pad2(i)}</div>
+            <div className="metric__num" aria-hidden="true">
+              {pad2(i)}
+            </div>
             <div className="metric__value">{metric.value}</div>
             <div className="metric__label">{metric.label}</div>
           </div>

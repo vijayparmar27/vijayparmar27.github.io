@@ -13,6 +13,7 @@ export const SITE = {
   phone: '+91 81403 11309',
   phoneHref: '+918140311309',
   location: 'Rajkot / Surat · India',
+  resumeUrl: '/assets/vijay-parmar-resume.pdf',
   themeColor: '#070709',
   socials: [
     { label: 'GitHub', url: 'https://www.github.com/vijayparmar27' },
@@ -22,10 +23,10 @@ export const SITE = {
 } as const;
 
 export const NAV_LINKS = [
-  { href: '#work', label: 'Work' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#capabilities', label: 'Approach' },
-  { href: '#stack', label: 'Stack' },
+  { href: '/#work', label: 'Work' },
+  { href: '/#experience', label: 'Experience' },
+  { href: '/#capabilities', label: 'Approach' },
+  { href: '/#stack', label: 'Stack' },
 ] as const;
 
 export const RAIL_LINKS = [

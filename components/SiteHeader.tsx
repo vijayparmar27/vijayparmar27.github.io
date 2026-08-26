@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { NAV_LINKS, SITE } from '@/lib/content';
 
 /**
@@ -8,22 +9,22 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <a className="brand" href="#top">
+        <Link className="brand" href="/#top">
           <span className="brand__mark" aria-hidden="true">
             VP
           </span>
           <span className="brand__name">{SITE.name}</span>
-        </a>
+        </Link>
 
         <nav className="site-nav" aria-label="Primary">
           {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href}>
+            <Link key={link.href} href={link.href}>
               {link.label}
-            </a>
+            </Link>
           ))}
-          <a className="cta" href="#contact">
+          <Link className="cta" href="/#contact">
             Hire me
-          </a>
+          </Link>
         </nav>
       </div>
     </header>

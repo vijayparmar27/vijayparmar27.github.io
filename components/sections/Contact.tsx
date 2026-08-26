@@ -26,6 +26,17 @@ export function Contact() {
             <a className="btn btn--ghost btn--lg" href={`tel:${SITE.phoneHref}`}>
               {SITE.phone}
             </a>
+            <a
+              className="btn btn--ghost btn--lg"
+              href={SITE.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Résumé{' '}
+              <span className="btn__arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
           </div>
 
           <div className="socials">

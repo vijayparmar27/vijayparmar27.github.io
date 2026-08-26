@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import '@/styles/fonts.css';
 import '@/styles/site.css';
 import { SITE } from '@/lib/content';
+import { personSchema } from '@/lib/structuredData';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SectionRail } from '@/components/SectionRail';
 import { MobileTabBar } from '@/components/MobileTabBar';
@@ -40,6 +41,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema()) }}
+        />
+
         <div className="grain" aria-hidden="true" />
         <ScrollProgress />
         <PointerEffects />

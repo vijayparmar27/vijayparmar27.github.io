@@ -1,27 +1,6 @@
-'use client';
-
 import { EDUCATION, STACK_GROUPS } from '@/lib/content';
-import type { StackGroup } from '@/lib/types';
 import { Eyebrow } from '@/components/Eyebrow';
-import { useReveal } from '@/hooks/useReveal';
-
-function Group({ group }: { group: StackGroup }) {
-  const { ref, revealClass } = useReveal<HTMLDivElement>();
-
-  return (
-    <div ref={ref} className={`stack-group ${revealClass}`.trim()} data-reveal>
-      <div className="stack-group__head">
-        <span className="stack-group__tick" aria-hidden="true" />
-        <h3 className="stack-group__name">{group.name}</h3>
-      </div>
-      <ul>
-        {group.items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+import { Reveal } from '@/components/Reveal';
 
 export function Stack() {
   return (
@@ -33,7 +12,17 @@ export function Stack() {
 
       <div className="stack-grid">
         {STACK_GROUPS.map((group) => (
-          <Group key={group.name} group={group} />
+          <Reveal className="stack-group" key={group.name}>
+            <div className="stack-group__head">
+              <span className="stack-group__tick" aria-hidden="true" />
+              <h3 className="stack-group__name">{group.name}</h3>
+            </div>
+            <ul>
+              {group.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </Reveal>
         ))}
       </div>
 

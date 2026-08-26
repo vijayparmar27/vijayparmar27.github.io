@@ -45,7 +45,9 @@ export function ProjectCard({ project, index, onOpen }: Props) {
       <div className="card__body">
         <div className="card__top">
           <span className="card__cat">{project.category}</span>
-          <span className="card__idx">{index}</span>
+          <span className="card__idx" aria-hidden="true">
+            {index}
+          </span>
         </div>
         <h3 className="card__title">{project.title}</h3>
         <p className="card__blurb">{project.blurb}</p>
