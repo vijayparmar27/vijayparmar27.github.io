@@ -4,6 +4,7 @@ import '@/styles/site.css';
 import { SITE } from '@/lib/content';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SectionRail } from '@/components/SectionRail';
+import { MobileTabBar } from '@/components/MobileTabBar';
 import { ScrollProgress } from '@/components/chrome/ScrollProgress';
 import { PointerEffects } from '@/components/chrome/PointerEffects';
 
@@ -51,6 +52,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SectionRail />
 
         <main>{children}</main>
+
+        <MobileTabBar />
       </body>
     </html>
   );

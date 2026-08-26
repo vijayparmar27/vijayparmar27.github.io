@@ -1,27 +1,10 @@
-'use client';
-
-import { useEffect, useRef, useState } from 'react';
 import { NAV_LINKS, SITE } from '@/lib/content';
 
+/**
+ * Sticky top bar. The nav is desktop-only — below 780px the floating
+ * MobileTabBar takes over, so there is no menu to toggle here.
+ */
 export function SiteHeader() {
-  const [open, setOpen] = useState(false);
-  const navRef = useRef<HTMLElement | null>(null);
-  const toggleRef = useRef<HTMLButtonElement | null>(null);
-
-  /* Below 780px the nav is an overlay panel — dismiss it on an outside click. */
-  useEffect(() => {
-    if (!open) return;
-
-    const onPointerDown = (ev: MouseEvent) => {
-      const target = ev.target as Node;
-      if (navRef.current?.contains(target) || toggleRef.current?.contains(target)) return;
-      setOpen(false);
-    };
-
-    document.addEventListener('click', onPointerDown);
-    return () => document.removeEventListener('click', onPointerDown);
-  }, [open]);
-
   return (
     <header className="site-header">
       <div className="site-header__inner">
@@ -32,35 +15,13 @@ export function SiteHeader() {
           <span className="brand__name">{SITE.name}</span>
         </a>
 
-        <button
-          type="button"
-          className="site-header__toggle"
-          ref={toggleRef}
-          aria-expanded={open}
-          aria-controls="primary-nav"
-          aria-label="Toggle menu"
-          onClick={(ev) => {
-            ev.stopPropagation();
-            setOpen((v) => !v);
-          }}
-        >
-          <span className="toggle-bar" />
-          <span className="toggle-bar" />
-          <span className="toggle-bar" />
-        </button>
-
-        <nav
-          className={`site-nav${open ? ' is-open' : ''}`}
-          id="primary-nav"
-          ref={navRef}
-          aria-label="Primary"
-        >
+        <nav className="site-nav" aria-label="Primary">
           {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
+            <a key={link.href} href={link.href}>
               {link.label}
             </a>
           ))}
-          <a className="cta" href="#contact" onClick={() => setOpen(false)}>
+          <a className="cta" href="#contact">
             Hire me
           </a>
         </nav>

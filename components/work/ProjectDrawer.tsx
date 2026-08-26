@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import type { Project } from '@/lib/types';
 import { metaLine } from '@/lib/format';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
@@ -13,7 +14,14 @@ type Props = {
 
 const FOCUSABLE = 'a[href], button, [tabindex]:not([tabindex="-1"])';
 
-/** Slide-over case study. Modal: scroll-locked, focus-trapped, Escape closes. */
+/**
+ * Slide-over case study. Modal: scroll-locked, focus-trapped, Escape closes.
+ *
+ * Rendered into <body> through a portal rather than in place. `section.shell`
+ * sets `position: relative; z-index: 2`, creating a stacking context — inside
+ * it the drawer's z-index 150 is scoped beneath that 2, so root-level fixed
+ * chrome (the mobile tab bar, z-index 90) would paint over the open drawer.
+ */
 export function ProjectDrawer({ project, onClose }: Props) {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
@@ -64,7 +72,7 @@ export function ProjectDrawer({ project, onClose }: Props) {
 
   if (!project) return null;
 
-  return (
+  return createPortal(
     <div
       className="drawer"
       role="dialog"
@@ -140,6 +148,7 @@ export function ProjectDrawer({ project, onClose }: Props) {
           ) : null}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
